@@ -9,6 +9,8 @@ import {useState} from "react";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {createIssueSchema} from "@/app/validationSchemas";
 import {z} from "zod"
+import ErrorMessage from "@/app/api/issues/components/ErrorMessage";
+import {ClockLoader} from "react-spinners";
 
 type IssueForm = z.infer<typeof createIssueSchema>
 
@@ -19,6 +21,7 @@ export default function NewIssuePage() {
     const {register, control, handleSubmit, formState: {errors}} = useForm<IssueForm>({
         resolver: zodResolver(createIssueSchema)
     })
+    const [isSubmitting, setIsSubmitting] = useState(false)
     return (
         <>
             <div className={"max-w-xl"}>
@@ -35,26 +38,34 @@ export default function NewIssuePage() {
 
                 <form className={"space-y-3"} onSubmit={handleSubmit(async (data) => {
                     try {
+                        setIsSubmitting(true);
                         await axios.post("/api/issues", data);
                         router.push("/issues")
                     } catch (error) {
                         setError("Unexpected error occurred")
+                        setIsSubmitting(false)
                     }
                 })}>
                     <TextField.Root placeholder="Title" {...register("title")}>
                         <TextField.Slot>
                         </TextField.Slot>
                     </TextField.Root>
-                    {errors.title && <Text color={"red"} as={"p"}>{errors.title.message}</Text>}
+                    <ErrorMessage>
+                        {errors.title?.message}
+                    </ErrorMessage>
+
                     <Controller
                         name={"description"}
                         control={control}
                         render={({field}) => <SimpleMDE placeholder="Description" {...field}/>
                         }/>
-                    {errors.description && <Text color={"red"} as={"p"}>{errors.description.message}</Text>}
+                    <ErrorMessage>
+                        {errors.description?.message}
+                    </ErrorMessage>
 
-                    <Button>Submit New Issue</Button>
+                    <Button disabled={isSubmitting}>Submit New Issue  {isSubmitting && <ClockLoader size={25} color="gray"/>} </Button>
                 </form>
+                {/*<ClockLoader size={25} color="gray" />*/}
             </div>
         </>
     )

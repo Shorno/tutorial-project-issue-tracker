@@ -17,7 +17,7 @@ export default function Navbar() {
 
     return (
         <>
-            <nav className={"flex space-x-6 border-b px-5 h-14 items-center"}>
+            <nav className={"flex space-x-6 border-b px-5 mb-5 h-14 items-center"}>
                 <Link href={"/"}><AiFillBug/></Link>
                 <ul className={"flex space-x-6"}>
                     {

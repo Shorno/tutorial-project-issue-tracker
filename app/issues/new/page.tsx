@@ -22,6 +22,21 @@ export default function NewIssuePage() {
         resolver: zodResolver(createIssueSchema)
     })
     const [isSubmitting, setIsSubmitting] = useState(false)
+
+
+
+    const onSubmit = handleSubmit(async (data) => {
+        try {
+            setIsSubmitting(true);
+            await axios.post("/api/issues", data);
+            router.push("/issues")
+        } catch (error) {
+            setError("Unexpected error occurred")
+            setIsSubmitting(false)
+        }
+    })
+
+
     return (
         <>
             <div className={"max-w-xl"}>
@@ -36,16 +51,7 @@ export default function NewIssuePage() {
                     )
                 }
 
-                <form className={"space-y-3"} onSubmit={handleSubmit(async (data) => {
-                    try {
-                        setIsSubmitting(true);
-                        await axios.post("/api/issues", data);
-                        router.push("/issues")
-                    } catch (error) {
-                        setError("Unexpected error occurred")
-                        setIsSubmitting(false)
-                    }
-                })}>
+                <form className={"space-y-3"} onSubmit={onSubmit}>
                     <TextField.Root placeholder="Title" {...register("title")}>
                         <TextField.Slot>
                         </TextField.Slot>
@@ -63,7 +69,8 @@ export default function NewIssuePage() {
                         {errors.description?.message}
                     </ErrorMessage>
 
-                    <Button disabled={isSubmitting}>Submit New Issue  {isSubmitting && <ClockLoader size={25} color="gray"/>} </Button>
+                    <Button disabled={isSubmitting}>Submit New Issue {isSubmitting &&
+                        <ClockLoader size={25} color="gray"/>} </Button>
                 </form>
                 {/*<ClockLoader size={25} color="gray" />*/}
             </div>

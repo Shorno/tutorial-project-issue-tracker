@@ -1,14 +1,13 @@
-import { Table} from "@radix-ui/themes";
-import prisma from "@/prisma/client";
-import IssueStatusBadge from "@/components/IssueStatusBadge";
 import IssueAction from "@/app/issues/new/IssueAction";
-import delay from "delay";
-
-export default async function IssuesPage() {
-    const issues = await prisma.issue.findMany();
-    await delay(5000);
+import {Table} from "@radix-ui/themes";
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css'
 
 
+export default function LoadingIssuesPage() {
+
+
+    const issues = [1, 2, 3, 4, 5, 6, 7, 8 , 9, 10]
     return (
         <>
             <div>
@@ -30,14 +29,17 @@ export default async function IssuesPage() {
                                 {
                                     issues.map((issue) => {
                                         return (
-                                            <Table.Row key={issue.id}>
-                                                <Table.Cell>{issue.title}
-                                                    <div className={"block sm:hidden"}><IssueStatusBadge status={issue.status}/></div>
+                                            <Table.Row key={issue}>
+                                                <Table.Cell><Skeleton/>
+                                                    <div className={"block sm:hidden"}>
+                                                        <Skeleton/>
+                                                    </div>
                                                 </Table.Cell>
                                                 <Table.Cell
-                                                    className={"hidden sm:table-cell"}><IssueStatusBadge status={issue.status}/></Table.Cell>
+                                                    className={"hidden sm:table-cell"}><Skeleton/></Table.Cell>
                                                 <Table.Cell
-                                                    className={"hidden sm:table-cell"}>{issue.createdAt.toDateString()}</Table.Cell>
+                                                    className={"hidden sm:table-cell"}><Skeleton/></Table.Cell>
+
                                             </Table.Row>
                                         )
                                     })

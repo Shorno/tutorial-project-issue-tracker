@@ -16,13 +16,14 @@ type IssueForm = z.infer<typeof createIssueSchema>
 
 
 export default function NewIssuePage() {
+
+
     const router = useRouter();
     const [error, setError] = useState("")
     const {register, control, handleSubmit, formState: {errors}} = useForm<IssueForm>({
         resolver: zodResolver(createIssueSchema)
     })
     const [isSubmitting, setIsSubmitting] = useState(false)
-
 
 
     const onSubmit = handleSubmit(async (data) => {

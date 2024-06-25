@@ -4,6 +4,7 @@ import IssueStatusBadge from "@/components/IssueStatusBadge";
 import IssueAction from "@/app/issues/new/IssueAction";
 import delay from "delay";
 import Link from "next/link";
+import {ClockLoader} from "react-spinners";
 
 export default async function IssuesPage() {
     const issues = await prisma.issue.findMany();

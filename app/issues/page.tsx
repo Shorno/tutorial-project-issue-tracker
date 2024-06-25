@@ -1,12 +1,13 @@
-import { Table} from "@radix-ui/themes";
+import {Table} from "@radix-ui/themes";
 import prisma from "@/prisma/client";
 import IssueStatusBadge from "@/components/IssueStatusBadge";
 import IssueAction from "@/app/issues/new/IssueAction";
 import delay from "delay";
+import Link from "next/link";
 
 export default async function IssuesPage() {
     const issues = await prisma.issue.findMany();
-    await delay(5000);
+    await delay(1000);
 
 
     return (
@@ -31,11 +32,16 @@ export default async function IssuesPage() {
                                     issues.map((issue) => {
                                         return (
                                             <Table.Row key={issue.id}>
-                                                <Table.Cell>{issue.title}
-                                                    <div className={"block sm:hidden"}><IssueStatusBadge status={issue.status}/></div>
+                                                <Table.Cell className={"bg-red-500"}>
+                                                    <Link href={`/issues/${issue.id}`}>
+                                                        {issue.title}
+                                                    </Link>
+                                                    <div className={"block sm:hidden"}><IssueStatusBadge
+                                                        status={issue.status}/></div>
                                                 </Table.Cell>
                                                 <Table.Cell
-                                                    className={"hidden sm:table-cell"}><IssueStatusBadge status={issue.status}/></Table.Cell>
+                                                    className={"hidden sm:table-cell"}><IssueStatusBadge
+                                                    status={issue.status}/></Table.Cell>
                                                 <Table.Cell
                                                     className={"hidden sm:table-cell"}>{issue.createdAt.toDateString()}</Table.Cell>
                                             </Table.Row>

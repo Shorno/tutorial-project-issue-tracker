@@ -3,8 +3,9 @@ import {issueSchema} from "@/app/validationSchemas";
 import prisma from "@/prisma/client";
 
 
-export default async function PATCH(request: NextRequest,
+export async function PATCH(request: NextRequest,
                                     {params}: { params: { id: string } }) {
+
 
     const body = await request.json();
     const validation = issueSchema.safeParse(body);
@@ -14,9 +15,7 @@ export default async function PATCH(request: NextRequest,
     }
 
     const issue = await prisma.issue.findUnique({
-        where: {
-            id: parseInt(params.id)
-        }
+        where: {id: parseInt(params.id)}
     });
 
     if (!issue) {

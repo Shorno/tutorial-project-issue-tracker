@@ -11,11 +11,12 @@ import {createIssueSchema} from "@/app/validationSchemas";
 import {z} from "zod"
 import ErrorMessage from "@/components/ErrorMessage";
 import {ClockLoader} from "react-spinners";
+import delay from "delay";
 
 type IssueForm = z.infer<typeof createIssueSchema>
 
 
-export default function NewIssuePage() {
+export default async function NewIssuePage() {
 
 
     const router = useRouter();
@@ -36,6 +37,7 @@ export default function NewIssuePage() {
             setIsSubmitting(false)
         }
     })
+    await delay(1000);
 
 
     return (

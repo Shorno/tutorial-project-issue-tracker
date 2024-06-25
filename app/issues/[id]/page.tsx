@@ -20,7 +20,6 @@ export default async function IssueDetailPage({params}: Props) {
         notFound()
     }
 
-
     return (
         <>
             <Heading>{issue.title}</Heading>

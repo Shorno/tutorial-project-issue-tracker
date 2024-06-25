@@ -33,7 +33,8 @@ export default async function IssuesPage() {
                                         return (
                                             <Table.Row key={issue.id}>
                                                 <Table.Cell className={"bg-red-500"}>
-                                                    <Link href={`/issues/${issue.id}`}>
+                                                    <Link className={"text-violet-600 hover:underline"}
+                                                          href={`/issues/${issue.id}`}>
                                                         {issue.title}
                                                     </Link>
                                                     <div className={"block sm:hidden"}><IssueStatusBadge

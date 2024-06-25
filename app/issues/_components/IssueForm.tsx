@@ -1,5 +1,4 @@
 "use client"
-import dynamic from "next/dynamic";
 import "easymde/dist/easymde.min.css";
 import {Button, Callout, TextField} from "@radix-ui/themes";
 import {useForm, Controller} from "react-hook-form";
@@ -12,13 +11,9 @@ import ErrorMessage from "@/components/ErrorMessage";
 import {ClockLoader} from "react-spinners";
 import {Issue} from "@prisma/client";
 import {useRouter} from "next/navigation";
+import SimpleMde from "react-simplemde-editor"
 
 type IssueFormData = z.infer<typeof issueSchema>
-const SimpleMDE = dynamic(
-    () => import("react-simplemde-editor"),
-    {
-        ssr: false
-    })
 
 
 export default function IssueForm({issue}: { issue?: Issue }) {
@@ -41,7 +36,7 @@ export default function IssueForm({issue}: { issue?: Issue }) {
                 await axios.post("/api/issues", data);
             }
             router.push("/issues")
-            router.refresh(); 
+            router.refresh();
 
         } catch (error) {
             setIsSubmitting(false)
@@ -77,7 +72,7 @@ export default function IssueForm({issue}: { issue?: Issue }) {
                         defaultValue={issue?.description}
                         name={"description"}
                         control={control}
-                        render={({field}) => <SimpleMDE placeholder="Description" {...field}/>
+                        render={({field}) => <SimpleMde placeholder="Description" {...field}/>
                         }/>
                     <ErrorMessage>
                         {errors.description?.message}

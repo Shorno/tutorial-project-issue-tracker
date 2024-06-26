@@ -2,10 +2,17 @@ import {NextRequest, NextResponse} from "next/server";
 import {issueSchema} from "@/app/validationSchemas";
 import prisma from "@/prisma/client";
 import delay from "delay";
+import {getServerSession} from "next-auth";
+import authOptions from "@/app/api/auth/authOptions";
 
 
 export async function PATCH(request: NextRequest,
                             {params}: { params: { id: string } }) {
+
+    const session = await getServerSession(authOptions);
+    if (!session) {
+        return NextResponse.json({"message": "Access forbidden"}, {status: 401})
+    }
 
 
     const body = await request.json();
@@ -38,6 +45,12 @@ export async function PATCH(request: NextRequest,
 
 export async function DELETE(request: NextRequest,
                              {params}: { params: { id: string } }) {
+
+    const session = await getServerSession(authOptions);
+    if (!session) {
+        return NextResponse.json({"message": "Access forbidden"}, {status: 401})
+    }
+
     await delay(2000);
 
     const issue = await prisma.issue.findUnique({

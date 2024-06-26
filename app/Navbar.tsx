@@ -82,7 +82,7 @@ return (
                         <Text size={"2"}>{session!.user!.email!}</Text>
                     </DropdownMenu.Label>
                     <DropdownMenu.Item>
-                        <Link className={"text-zinc-500"} href={`/api/auth/signout`}>Log Out</Link>
+                        <Link className={"text-zinc-500 hover:text-white h-full flex items-center w-full"} href={`/api/auth/signout`}>Log Out</Link>
                     </DropdownMenu.Item>
                 </DropdownMenu.Content>
             </DropdownMenu.Root>
